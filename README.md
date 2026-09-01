@@ -15,16 +15,16 @@
 
 ## 📌 Descripción del Proyecto
 
-Este es un proyecto escolar 
+Este es un proyecto escolar que consiste en una página web de comercio electrónico. La misma es muy simple tanto es concepto, diseño y ejecución. La idea, además de presentarse como proyecto escolar, es permitir que cualquier persona que desee aprender sobre desarrollo web y base de datos pueda inspeccionar el código e incluso modificarlo con fines educativos; esto último permitido con la licencia de GNU.
 
 ---
 
 ## ✨ Características Principales
 
-* ⚡ **Característica 1:** Descripción breve de la funcionalidad.
-* 🛠️ **Característica 2:** Descripción breve de la funcionalidad.
-* 🔒 **Característica 3:** Descripción breve de la funcionalidad.
-* 🎨 **Característica 4:** Descripción breve de la funcionalidad.
+* ⚡ **Característica 1:** Simple.
+* 🛠️ **Característica 2:** Ligero.
+* 🔒 **Característica 3:** Libre.
+* 🎨 **Característica 4:** optimizado.
 
 ---
 
