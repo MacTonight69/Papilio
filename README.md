@@ -32,11 +32,11 @@ Este es un proyecto escolar que consiste en una página web de comercio electró
 
 | Avatar | Nombre | Rol | GitHub |
 | :---: | :--- | :--- | :---: |
-| <img src="https://github.com/usuario1.png" width="50px" style="border-radius:50%"> | **Bautista Alejandro Cafferata** | Coordinador | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/MacTonight69) |
-| <img src="https://github.com/usuario2.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 2]** | [Rol Desarrollador 2] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario2) |
-| <img src="https://github.com/usuario3.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 3]** | [Rol Desarrollador 3] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario3) |
-| <img src="https://github.com/usuario4.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 4]** | [Rol Desarrollador 4] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario4) |
-| <img src="https://github.com/usuario5.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 5]** | [Rol Desarrollador 5] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario5) |
+| <img src="https://github.com/MacTonight69.png" width="50px" style="border-radius:50%"> | **Bautista Alejandro Cafferata** | Project Manager | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/MacTonight69) |
+| <img src="https://github.com/usuario2.png" width="50px" style="border-radius:50%"> | **Lautaro Benjamín Salas** | Desarrollador (back-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/Lautaro-Salas) |
+| <img src="https://github.com/usuario3.png" width="50px" style="border-radius:50%"> | **Enzo Ferreyra** | Desarrollador (front-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario3) |
+| <img src="https://github.com/usuario4.png" width="50px" style="border-radius:50%"> | **Miqueas Alexander Herrera** | Analista de sistema | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario4) |
+| <img src="https://github.com/usuario5.png" width="50px" style="border-radius:50%"> | **Nino Iván Martínez** | Diseñador GUI | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario5) |
 
 ---
 
