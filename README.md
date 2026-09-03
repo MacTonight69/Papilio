@@ -1,8 +1,8 @@
 <div align="center">
 
-  # 🚀 [Papilio]
+  # 🚀 Papilio
 
-  **Un sitio donde realizar intercambios y buscar el mutuo beneficio.**
+  **Un sitio donde realizar intercambios y comerciar libremente.**
 
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
   [![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue.svg)]()
