@@ -1,13 +1,13 @@
 <div align="center">
 
-  # 🚀 [Nombre de tu Proyecto]
+  # 🚀 [Proudhon]
 
-  **Una frase corta, impactante y descriptiva sobre lo que hace tu proyecto.**
+  **Un sitio donde realizar intercambios y buscar el mutuo beneficio.**
 
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
   [![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue.svg)]()
 
-  [Ver Demo](#) · [Reportar Error](https://github.com/tu-usuario/tu-repositorio/issues)
+  [Ver Demo](#) · [Reportar Error](https://github.com/MacTonight69/Plataforma-Web-E-Commerce/issues)
 
 </div>
 
@@ -24,7 +24,7 @@ Este es un proyecto escolar que consiste en una página web de comercio electró
 * ⚡ **Característica 1:** Simple.
 * 🛠️ **Característica 2:** Ligero.
 * 🔒 **Característica 3:** Libre.
-* 🎨 **Característica 4:** optimizado.
+* 🎨 **Característica 4:** Optimizado.
 
 ---
 
@@ -32,7 +32,7 @@ Este es un proyecto escolar que consiste en una página web de comercio electró
 
 | Avatar | Nombre | Rol | GitHub |
 | :---: | :--- | :--- | :---: |
-| <img src="https://github.com/usuario1.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 1]** | [Rol Desarrollador 1] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario1) |
+| <img src="https://github.com/usuario1.png" width="50px" style="border-radius:50%"> | **Bautista Alejandro Cafferata** | Coordinador | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/MacTonight69) |
 | <img src="https://github.com/usuario2.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 2]** | [Rol Desarrollador 2] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario2) |
 | <img src="https://github.com/usuario3.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 3]** | [Rol Desarrollador 3] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario3) |
 | <img src="https://github.com/usuario4.png" width="50px" style="border-radius:50%"> | **[Nombre Desarrollador 4]** | [Rol Desarrollador 4] | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario4) |
