@@ -1,13 +1,13 @@
 <div align="center">
 
-  # 🚀 [Proudhon]
+  # 🚀 [Papilio]
 
   **Un sitio donde realizar intercambios y buscar el mutuo beneficio.**
 
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
   [![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue.svg)]()
 
-  [Ver Demo](#) · [Reportar Error](https://github.com/MacTonight69/Plataforma-Web-E-Commerce/issues)
+  [Ver Demo](#) · [Reportar Error](https://github.com/MacTonight69/Papilio/issues)
 
 </div>
 
@@ -33,7 +33,7 @@ Este es un proyecto escolar que consiste en una página web de comercio electró
 | Avatar | Nombre | Rol | GitHub |
 | :---: | :--- | :--- | :---: |
 | <img src="https://github.com/MacTonight69.png" width="50px" style="border-radius:50%"> | **Bautista Alejandro Cafferata** | Project Manager | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/MacTonight69) |
-| <img src="https://github.com/usuario2.png" width="50px" style="border-radius:50%"> | **Lautaro Benjamín Salas** | Desarrollador (back-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/Lautaro-Salas) |
+| <img src="https://github.com/Lautaro-Salas.png" width="50px" style="border-radius:50%"> | **Lautaro Benjamín Salas** | Desarrollador (back-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/Lautaro-Salas) |
 | <img src="https://github.com/usuario3.png" width="50px" style="border-radius:50%"> | **Enzo Ferreyra** | Desarrollador (front-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario3) |
 | <img src="https://github.com/usuario4.png" width="50px" style="border-radius:50%"> | **Miqueas Alexander Herrera** | Analista de sistema | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario4) |
 | <img src="https://github.com/usuario5.png" width="50px" style="border-radius:50%"> | **Nino Iván Martínez** | Diseñador GUI | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario5) |
