@@ -36,7 +36,7 @@ Este es un proyecto escolar que consiste en una página web de comercio electró
 | <img src="https://github.com/Lautaro-Salas.png" width="50px" style="border-radius:50%"> | **Lautaro Benjamín Salas** | Desarrollador (back-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/Lautaro-Salas) |
 | <img src="https://github.com/totofrkhs.png" width="50px" style="border-radius:50%"> | **Enzo Ferreyra** | Desarrollador (front-end) | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/totofrkhs/) |
 | <img src="https://github.com/usuario4.png" width="50px" style="border-radius:50%"> | **Miqueas Alexander Herrera** | Analista de sistema | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario4) |
-| <img src="https://github.com/usuario5.png" width="50px" style="border-radius:50%"> | **Nino Iván Martínez** | Diseñador GUI | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/usuario5) |
+| <img src="https://github.com/PeladoAtomico50.png" width="50px" style="border-radius:50%"> | **Nino Iván Martínez** | Diseñador GUI | [<img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"/>](https://github.com/PeladoAtomico50) |
 
 ---
 
