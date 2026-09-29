@@ -1,0 +1,34 @@
+%% Papilio - Catálogo y carrito
+%% Símbolos: ([óvalo]) inicio/fin, [rectángulo] proceso o menú, [/paralelogramo/] pantalla,
+%%           [(cilindro)] base de datos, {rombo} decisión Sí/No, [[doble borde]] subproceso
+flowchart TD
+    INICIO(["Inicio"])
+    FIN(["Fin"])
+
+    GET["Enviar GET /api/productos<br/>(con buscar y categoría<br/>si se usaron)"]
+    BD[("MongoDB:<br/>consultar productos")]
+    OK{"¿Respuesta correcta?"}
+    ERR[/"Mostrar mensaje de error"/]
+    CAT[/"Mostrar catálogo"/]
+    M1["Menú del catálogo"]
+
+    ADD["Agregar producto al carrito<br/>(si ya está, sumar 1)"]
+    SAVE["Guardar carrito en LocalStorage<br/>y recalcular total"]
+    CART[/"Mostrar carrito con total"/]
+    M2["Menú del carrito"]
+    PED[["Confirmar pedido"]]
+
+    INICIO --> GET --> BD --> OK
+    OK -->|"No"| ERR
+    ERR -->|"Reintentar"| GET
+    OK -->|"Sí"| CAT --> M1
+
+    M1 -->|"Buscar o filtrar"| GET
+    M1 -->|"Agregar producto"| ADD --> SAVE
+    M1 -->|"Ver carrito"| CART
+    M1 -->|"Salir"| FIN
+
+    SAVE --> CART --> M2
+    M2 -->|"Cambiar cantidad o quitar"| SAVE
+    M2 -->|"Seguir comprando"| CAT
+    M2 -->|"Confirmar compra"| PED

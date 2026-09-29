@@ -1,0 +1,50 @@
+%% Papilio - Acceso y administración de productos
+%% Símbolos: ([óvalo]) inicio/fin, [rectángulo] proceso o menú, {rombo} decisión Sí/No,
+%%           [/paralelogramo/] pantalla o formulario, [(cilindro)] base de datos
+flowchart TD
+    INICIO(["Inicio: ingresa a /admin"])
+    FIN(["Fin"])
+
+    S{"¿Tiene un token<br/>de administrador válido?"}
+    CL[/"Ingresar clave de administrador"/]
+    CP["Enviar POST /api/admin/acceso"]
+    CK{"¿La clave<br/>es correcta?"}
+    CE[/"Mostrar error:<br/>clave incorrecta"/]
+    TK["Guardar token JWT<br/>en el navegador"]
+
+    PAN[/"Mostrar panel con<br/>listado de productos"/]
+    M["Menú del panel"]
+
+    F[/"Completar formulario:<br/>nombre, descripción, precio,<br/>categoría e imagen"/]
+    V{"¿Datos válidos?"}
+    REQ["Enviar POST o PUT /api/productos<br/>con token (imagen como archivo)"]
+
+    C{"¿Confirma la<br/>eliminación?"}
+    REQD["Enviar DELETE /api/productos/:id<br/>con token"]
+
+    BD[("MongoDB y carpeta de imágenes:<br/>verificar token,<br/>guardar o borrar y actualizar")]
+    OK{"¿Se aplicó<br/>el cambio?"}
+    SV{"¿El token venció<br/>o es inválido?"}
+    BS["Borrar token<br/>del navegador"]
+    E[/"Mostrar mensaje de error"/]
+    OUT["Borrar token<br/>del navegador"]
+
+    INICIO --> S
+    S -->|"No"| CL --> CP --> CK
+    CK -->|"No"| CE --> CL
+    CK -->|"Sí"| TK --> PAN
+    S -->|"Sí"| PAN --> M
+
+    M -->|"Crear o modificar"| F --> V
+    V -->|"No"| F
+    V -->|"Sí"| REQ --> BD
+    M -->|"Eliminar"| C
+    C -->|"No"| PAN
+    C -->|"Sí"| REQD --> BD
+    M -->|"Salir del panel"| OUT --> FIN
+
+    BD --> OK
+    OK -->|"Sí"| PAN
+    OK -->|"No"| SV
+    SV -->|"Sí"| BS --> CL
+    SV -->|"No"| E --> PAN

@@ -1,0 +1,24 @@
+%% Papilio - Diagrama general (vista de conjunto)
+%% Cada bloque [[doble borde]] es un subproceso con su propio diagrama en la carpeta diagramas/
+%% Símbolos: ([óvalo]) inicio/fin, [rectángulo] proceso o menú, {rombo} decisión Sí/No,
+%%           [/paralelogramo/] pantalla o formulario, [(cilindro)] base de datos, [[doble borde]] subproceso
+flowchart TD
+    INICIO(["Inicio"])
+    FIN(["Fin"])
+    MENU["Menú principal:<br/>ver la tienda o administrar el catálogo"]
+
+    TIENDA[["Catálogo y carrito<br/>(diagramas/tienda.mmd)"]]
+    PEDIDO[["Confirmar pedido y enviar código<br/>(diagramas/pedido.mmd)"]]
+    ADMIN[["Acceso y administración de productos<br/>(diagramas/admin.mmd)"]]
+
+    INICIO --> MENU
+    MENU -->|"Ver la tienda"| TIENDA
+    MENU -->|"Ingresar a /admin"| ADMIN
+
+    TIENDA -->|"Confirmar compra"| PEDIDO
+    TIENDA -->|"Salir"| FIN
+
+    PEDIDO -->|"Pedido guardado"| FIN
+    PEDIDO -->|"Cancelado o con error"| TIENDA
+
+    ADMIN -->|"Sale del panel"| FIN

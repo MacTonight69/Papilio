@@ -1,0 +1,36 @@
+%% Papilio - Confirmar pedido y enviar código
+%% Símbolos: ([óvalo]) inicio/fin, [rectángulo] proceso, {rombo} decisión Sí/No,
+%%           [/paralelogramo/] pantalla o formulario, [(cilindro)] base de datos
+flowchart TD
+    INICIO(["Inicio: confirmar compra"])
+    FC(["Fin: vuelve al carrito"])
+    FIN(["Fin"])
+
+    V{"¿El carrito<br/>tiene productos?"}
+    AV[/"Avisar: carrito vacío"/]
+
+    F[/"Completar datos del cliente<br/>(nombre, email, teléfono y dirección)<br/>junto al resumen del pedido"/]
+    FV{"¿Datos completos<br/>y válidos?"}
+    P["Enviar POST /api/pedidos<br/>con datos del cliente,<br/>productos y cantidades"]
+    BD[("MongoDB:<br/>validar productos,<br/>calcular total con precios reales,<br/>generar código único y guardar pedido")]
+    OK{"¿Se guardó<br/>el pedido?"}
+    E[/"Mostrar mensaje de error"/]
+
+    MAIL["Backend: enviar email con el código<br/>y el detalle de la compra<br/>al cliente y al vendedor"]
+    MOK{"¿Se enviaron<br/>los emails?"}
+    LOG["Registrar el fallo en el servidor<br/>(el pedido queda guardado)"]
+
+    VAC["Vaciar carrito<br/>en LocalStorage"]
+    CF[/"Mostrar confirmación<br/>con el código del pedido"/]
+
+    INICIO --> V
+    V -->|"No"| AV --> FC
+    V -->|"Sí"| F --> FV
+    FV -->|"No"| F
+    FV -->|"Sí"| P --> BD --> OK
+
+    OK -->|"No"| E --> FC
+    OK -->|"Sí"| MAIL --> MOK
+    MOK -->|"No"| LOG --> VAC
+    MOK -->|"Sí"| VAC
+    VAC --> CF --> FIN
