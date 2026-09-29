@@ -24,7 +24,7 @@ A partir de la consigna pueden identificarse varios problemas relacionados entre
 
 La tienda necesita disponer de un catálogo de productos que pueda ser consultado por los usuarios de manera dinámica. La información no debe estar simplemente incorporada de forma estática en las páginas, sino que debe ser obtenida desde una API de manera asincrónica.
 
-Además, el catálogo debe contemplar **filtros de búsqueda**, por lo que el sistema debe permitir localizar productos de acuerdo con los criterios que se definan para dicha búsqueda. La consigna especifica la existencia de una operación `GET /api/productos` destinada a esta función.
+Además, el catálogo debe contemplar filtros por fecha de incorporación al stock (más reciente o más antiguo), precio (mayor o menor), nombre y categoría. Para ordenar por incorporación, cada producto debe conservar la fecha en que fue agregado al stock. La consigna especifica la existencia de una operación `GET /api/productos` destinada a esta función.
 
 El problema, entonces, consiste en mantener una fuente centralizada de información sobre los productos y proporcionar un mecanismo que permita al frontend consultar dicha información.
 
@@ -34,21 +34,17 @@ Debido a que el sistema está destinado a un único vendedor, no es necesario co
 
 ### 2.2. Gestión del carrito de compras
 
-El usuario debe poder seleccionar productos del catálogo y agregarlos a un carrito.
+El cliente debe poder seleccionar productos del catálogo, indicar la cantidad deseada en la unidad de medida correspondiente y agregarlos a un carrito. El carrito debe conservarse durante la navegación mediante `LocalStorage`.
 
-El carrito presenta además un requisito particular: **debe ser persistente**. Esto significa que la información de los productos seleccionados no debe perderse simplemente porque el usuario recargue la página.
+El sistema debe calcular automáticamente el subtotal de cada línea y el precio final del carrito. No se aplicarán descuentos. Al confirmar el pedido, el backend debe validar que haya stock suficiente para cada producto y evitar que el stock quede negativo.
 
-La consigna establece específicamente que esta persistencia debe implementarse mediante `LocalStorage` y que el sistema debe realizar automáticamente la suma de los montos correspondientes a los productos incorporados.
-
-Por lo tanto, el problema comprende tanto el almacenamiento temporal de la selección del usuario como la actualización coherente de las cantidades y del importe total.
-
-Como todos los productos pertenecen al mismo vendedor, el carrito no necesita diferenciar productos según vendedores ni gestionar carritos separados para distintas tiendas.
+El carrito representa una selección pendiente; el pedido es el registro persistente generado al confirmarla. El sistema enviará por correo electrónico la información de la compra. No procesará pagos ni gestionará envíos.
 
 ---
 
 ### 2.3. Registro de órdenes de compra
 
-Una vez que el usuario ha conformado su carrito, el sistema necesita transformar esa selección en una **orden de compra que pueda ser almacenada**.
+Los clientes registrados deben poder transformar el carrito en una **orden de compra que pueda ser almacenada**. La orden debe incluir los productos, las cantidades solicitadas, los precios usados para calcular el total y el precio final, sin descuento.
 
 La consigna establece una API específica mediante la ruta:
 
@@ -61,7 +57,7 @@ Esto introduce una separación entre dos conceptos:
 * **Carrito:** representa la selección actual del usuario y permanece almacenado localmente.
 * **Pedido:** representa la orden que debe registrarse en el backend.
 
-El problema consiste, por lo tanto, en establecer correctamente el proceso mediante el cual los datos del carrito son enviados al servidor y transformados en una orden persistente.
+El backend debe volver a consultar los precios y el stock vigentes antes de guardar el pedido, en lugar de confiar en los importes enviados por el navegador. Al registrar la orden, debe actualizar el stock de los productos y enviar al cliente por correo electrónico la información del pedido. La política para pedidos con stock insuficiente debe informarse al cliente.
 
 Al tratarse de una plataforma de un único vendedor, una orden no necesita contemplar la posibilidad de distribuir sus productos entre diferentes vendedores.
 
@@ -71,11 +67,21 @@ Al tratarse de una plataforma de un único vendedor, una orden no necesita conte
 
 El catálogo no puede considerarse un conjunto de datos inmutable. El proyecto requiere un **panel CRUD** mediante el cual se puedan agregar, modificar y eliminar productos, incluyendo sus imágenes y datos.
 
-La consigna especifica que dicho panel debe encontrarse en una **ruta protegida del frontend**.
+La consigna especifica que dicho panel debe encontrarse en una **ruta protegida** y que las operaciones deben estar autorizadas también en el backend. El producto solo podrá crearse si todos sus campos requeridos están completos: nombre, categoría, cantidad en stock, precio por unidad, unidad de medida, imagen o foto y descripción. Las imágenes se cargarán en el subdirectorio `imgs` del proyecto; la base de datos conservará la ruta relativa del archivo. También se registrará la fecha de incorporación al stock para permitir ordenar el catálogo por más reciente o más antiguo.
 
 El problema consiste entonces en proporcionar una interfaz diferenciada para las tareas administrativas y evitar que las operaciones de mantenimiento del catálogo estén disponibles de manera indiscriminada para cualquier usuario.
 
 Debido al modelo de un único vendedor, el panel administrativo estará orientado a la gestión del catálogo perteneciente a ese vendedor y no a la administración de múltiples tiendas o cuentas comerciales independientes.
+
+### 2.5. Cuentas y administración de usuarios
+
+Los clientes deberán registrarse e iniciar sesión con correo electrónico y contraseña. El registro solicita nombre, apellido, correo electrónico y contraseña. El sistema enviará a esa dirección un correo con un token de validación. Los datos se guardarán definitivamente en MongoDB solo después de que el usuario valide el token; antes de esa confirmación, el registro todavía no será una cuenta activa.
+
+El usuario podrá eliminar su propia cuenta desde el apartado de configuración. Además, el administrador root podrá eliminar cuentas e informar por correo la justificación correspondiente.
+
+Se creará por defecto una cuenta administrativa identificada como usuario 0, con nombre y contraseña, que representa al administrador root. Su tipo y permisos son exclusivos y no podrán asignarse ni replicarse en ninguna otra cuenta. El administrador podrá gestionar el catálogo y eliminar cuentas de clientes. Al eliminar una cuenta, el sistema deberá enviar un correo al usuario con la justificación de la eliminación.
+
+Las contraseñas, incluida la del administrador root, se almacenarán como hashes generados con `bcryptjs`; nunca en texto plano. Al validar las credenciales, el backend emitirá un JWT que se utilizará para autenticar las solicitudes posteriores. La denominación usuario 0 identifica la cuenta root; MongoDB puede mantener su identificador interno habitual y guardar el tipo de cuenta como un atributo protegido.
 
 ---
 
@@ -85,28 +91,31 @@ A partir de los requisitos pueden identificarse principalmente dos actores:
 
 | Actor                        | Interacción con el sistema                                                                                                   |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **Cliente / usuario**        | Consulta el catálogo, busca productos, agrega productos al carrito y genera una orden de compra.                             |
-| **Administrador / vendedor** | Accede al panel administrativo y mantiene el catálogo mediante operaciones de alta, modificación y eliminación de productos. |
+| **Cliente / usuario**        | Se registra y confirma su correo, inicia sesión, consulta y filtra el catálogo, administra su carrito, genera pedidos y puede eliminar su cuenta desde configuración. |
+| **Administrador root (usuario 0)** | Gestiona productos y cuentas desde una ruta protegida; sus permisos exclusivos no pueden replicarse. Al eliminar una cuenta, informa la justificación por correo electrónico. |
 
 El sistema está diseñado para un **único vendedor**, por lo que no se contempla la existencia de múltiples vendedores independientes dentro de la plataforma. El administrador representa al propietario o responsable del único catálogo gestionado por el sistema.
 
-La consigna no especifica otros actores, como operadores de logística, medios de pago o proveedores, por lo que **no corresponde incorporarlos al análisis del problema como requisitos del sistema**.
+No se requieren actores de logística ni medios de pago, ya que los envíos y pagos quedan fuera del alcance del proyecto.
 
 ---
 
 ## 4. Información que debe manejar el sistema
 
-Del problema se desprenden, como mínimo, dos grupos principales de información.
+Del problema se desprenden, como mínimo, tres grupos principales de información.
 
 ### Productos
 
 El sistema debe manejar información correspondiente a los productos, incluyendo:
 
-* Datos del producto.
-* Imagen o imágenes.
-* Información necesaria para mostrarlo en el catálogo.
-* Información necesaria para realizar operaciones de búsqueda.
-* Información necesaria para calcular el importe del carrito.
+* Nombre.
+* Categoría.
+* Cantidad en stock.
+* Precio por unidad.
+* Unidad de medida.
+* Imagen o foto, almacenada como archivo en `imgs` y referenciada desde la base de datos.
+* Descripción.
+* Fecha de incorporación al stock, para ordenar el catálogo por antigüedad.
 
 La consigna menciona explícitamente la administración de **imágenes y datos de productos**.
 
@@ -118,7 +127,11 @@ El sistema también debe manejar las órdenes generadas por los usuarios. Estas 
 
 La consigna confirma específicamente la necesidad de guardar la orden mediante `POST /api/pedidos`.
 
-Las órdenes estarán compuestas por productos pertenecientes al catálogo del único vendedor.
+Cada pedido debe estar asociado al cliente que inició sesión e incluir los productos elegidos, sus cantidades, el precio utilizado y el precio final, sin descuentos. Los pedidos estarán compuestos por productos del único catálogo. La información de la compra se enviará por correo electrónico. No se procesarán pagos ni envíos.
+
+### Usuarios
+
+Los datos de registro de los clientes (nombre, apellido y correo electrónico) se guardarán definitivamente en MongoDB después de validar el token enviado por email. También se almacenará la información segura necesaria para autenticarles y la cuenta administrativa inicial identificada como usuario 0. Los usuarios podrán eliminar su propia cuenta desde configuración; el administrador también podrá eliminarlos y el sistema deberá notificarles por correo con la justificación correspondiente.
 
 ---
 
@@ -151,13 +164,15 @@ El catálogo constituye una fuente centralizada de información correspondiente 
 ```text
 Usuario selecciona producto
           ↓
+ Indica cantidad y unidad
+          ↓
      Agregar al carrito
           ↓
        LocalStorage
           ↓
-Actualización de cantidades
-          ↓
- Cálculo del importe total
+Validar disponibilidad de stock
+         ↓
+      Calcular subtotal y total sin descuentos
 ```
 
 ### Generación del pedido
@@ -173,13 +188,19 @@ POST /api/pedidos
    ↓
 Backend
    ↓
-Base de datos
+Validar cliente, precios y stock
+   ↓
+Guardar pedido y actualizar stock
+   ↓
+Base de datos MongoDB
+   ↓
+Enviar resumen de la compra por email
 ```
 
 ### Administración de productos
 
 ```text
-Administrador / vendedor
+Administrador root (usuario 0)
           ↓
     Panel protegido
           ↓
@@ -190,6 +211,30 @@ Administrador / vendedor
       Base de datos
           ↓
     Catálogo actualizado
+```
+
+### Registro, acceso y administración de usuarios
+
+```text
+Cliente envía nombre, apellido y correo
+   ↓
+Sistema envía token de validación al correo
+   ↓
+Cliente valida el token
+   ↓
+Datos de la cuenta se guardan en MongoDB
+   ↓
+Cliente inicia sesión y accede al sistema
+   ↓
+Puede eliminar su cuenta desde configuración
+
+Administrador root (usuario 0; permisos exclusivos)
+        ↓
+Ruta protegida y autorización en backend
+        ↓
+Elimina cuenta indicando justificación
+        ↓
+Sistema envía correo de notificación
 ```
 
 ---
@@ -204,10 +249,18 @@ El sistema debe abarcar:
 * Búsqueda/filtros de productos.
 * Gestión del carrito.
 * Persistencia del carrito mediante `LocalStorage`.
-* Cálculo automático de los montos.
+* Cálculo automático del subtotal y precio final, sin descuentos.
 * Registro de pedidos.
 * Administración CRUD de productos.
 * Protección de la ruta administrativa.
+* Registro e inicio de sesión de clientes.
+* Confirmación de correo mediante token antes de guardar definitivamente la cuenta en MongoDB.
+* Eliminación de la propia cuenta desde la configuración del usuario.
+* Administración de cuentas por el usuario administrador 0, incluida la notificación por correo al eliminar una cuenta.
+* Control del stock almacenado en MongoDB y validación de disponibilidad al confirmar un pedido.
+* Carga de imágenes al subdirectorio `imgs`.
+* Filtros por fecha de incorporación al stock (más reciente o más antiguo), precio (mayor o menor), nombre y categoría.
+* Envío por email de la información de la compra.
 * Gestión de un único catálogo correspondiente a un único vendedor.
 
 ### Modelo de negocio
@@ -224,26 +277,20 @@ Esto implica que:
 * No se contempla la administración de múltiples tiendas o cuentas de vendedores.
 * No se contempla la distribución de una misma orden entre diferentes vendedores.
 
-Por lo tanto, el problema se diferencia de un modelo de **marketplace**, donde múltiples vendedores independientes ofrecen productos dentro de una misma plataforma.
-
 ### Funcionalidades fuera del alcance
 
-La consigna **no especifica** funcionalidades como:
+* Descuentos en las compras.
+* Procesamiento de pagos; solo se enviará por email la información de la compra.
+* Gestión de envíos y seguimiento logístico.
+* Facturación e integración con proveedores externos.
 
-* Sistema de pagos.
-* Gestión de cuentas de clientes.
-* Registro/login de usuarios.
-* Seguimiento de pedidos.
-* Gestión de stock.
-* Facturación.
-* Envíos.
-* Notificaciones.
-* Integración con proveedores externos.
-* Administración de múltiples vendedores.
-* Creación de múltiples tiendas dentro de la plataforma.
-* Distribución de pedidos entre distintos vendedores.
+### Autenticación y correo
 
-Por lo tanto, estas funcionalidades no deberían considerarse parte del problema a resolver salvo que posteriormente se agreguen como requisitos.
+* `bcryptjs` se utilizará para generar y verificar hashes de contraseñas.
+* JWT se utilizará para autenticar sesiones y solicitudes a rutas protegidas.
+* Mailtrap Sandbox se utilizará para probar el envío de tokens de validación, resúmenes de compra y notificaciones de eliminación. Los mensajes de Sandbox son de prueba y no equivalen a entregas reales; el envío a usuarios finales requerirá un servicio de correo de producción.
+
+Por lo tanto, el problema se diferencia de un modelo de **marketplace**, donde múltiples vendedores independientes ofrecen productos dentro de una misma plataforma.
 
 ---
 
@@ -251,7 +298,7 @@ Por lo tanto, estas funcionalidades no deberían considerarse parte del problema
 
 El problema no se limita a definir qué debe hacer el sistema, sino que también establece una arquitectura tecnológica determinada.
 
-La solución debe utilizar **JavaScript o TypeScript**, con **React** para el frontend, **Node.js con Express** para el backend y **MongoDB o PostgreSQL** como sistema de almacenamiento.
+La solución debe utilizar **JavaScript o TypeScript**, con **React** para el frontend, **Node.js con Express** para el backend y **MongoDB** como sistema de almacenamiento.
 
 La estructura resultante queda conceptualmente dividida en:
 
@@ -267,8 +314,8 @@ La estructura resultante queda conceptualmente dividida en:
           │                           │
           └──────────────┬────────────┘
                          │
-                    Base de datos
-                  MongoDB/PostgreSQL
+                              Base de datos
+                                 MongoDB
 ```
 
 El frontend también debe comunicarse con la API de forma asincrónica mediante `fetch` o `axios`.
@@ -281,12 +328,14 @@ La arquitectura se plantea para gestionar la información correspondiente a un �
 
 Desde una perspectiva de **análisis de sistemas**, el problema puede sintetizarse de la siguiente manera:
 
-> Se requiere desarrollar una plataforma web de comercio electrónico para un **único vendedor**, capaz de centralizar la información de sus productos y ponerla a disposición de los usuarios mediante un catálogo dinámico y consultable. El usuario debe poder seleccionar productos, mantener dicha selección en un carrito persistente y obtener automáticamente el importe correspondiente. Una vez finalizada la selección, el sistema debe permitir registrar la orden de compra mediante el backend.
+> Se requiere desarrollar una plataforma web de comercio electrónico para un **único vendedor**, con frontend React, backend Node.js/Express y base de datos MongoDB. Los clientes deberán registrarse con nombre, apellido, correo y contraseña; validarán su correo mediante un token antes de que la cuenta se guarde definitivamente. El inicio de sesión utilizará `bcryptjs` para verificar contraseñas y JWT para autenticar solicitudes. El cliente podrá consultar el catálogo, agregar productos y cantidades a un carrito persistido en `LocalStorage`, y generar pedidos. El catálogo se podrá ordenar por fecha de incorporación al stock y precio, y filtrar por nombre y categoría. El sistema calculará el precio final sin aplicar descuentos, validará el stock, almacenará los pedidos y enviará por email la información de la compra mediante Mailtrap Sandbox durante las pruebas. No procesará pagos.
 >
-> Paralelamente, el sistema debe resolver la necesidad de mantenimiento del catálogo mediante un panel administrativo protegido que permita realizar operaciones de alta, modificación y eliminación de productos, incluyendo sus imágenes y datos.
+> El catálogo incluirá nombre, categoría, cantidad en stock, precio por unidad, unidad de medida, imagen o foto y descripción. El administrador inicial, denominado usuario 0, será el root y tendrá tipo y permisos exclusivos que no podrán replicarse. Gestionará productos desde una ruta protegida; para crearlos, todos esos campos deberán estar completos. Las imágenes se guardarán en el subdirectorio `imgs` del proyecto y MongoDB almacenará sus referencias.
+>
+> El administrador también podrá eliminar cuentas de clientes; el sistema enviará al usuario un correo con la justificación. No se gestionarán envíos.
 >
 > El sistema no contempla un modelo de marketplace ni la administración de múltiples vendedores. Todos los productos pertenecen al mismo vendedor y las órdenes se generan sobre productos pertenecientes a ese único catálogo.
 >
-> Para resolver el problema se plantea una arquitectura dividida entre frontend, backend y base de datos, utilizando React, Node.js/Express y MongoDB o PostgreSQL, con comunicación mediante una API REST.
+> Para resolver el problema se plantea una arquitectura dividida entre frontend, backend y base de datos, utilizando React, Node.js/Express y MongoDB, con comunicación mediante una API REST.
 
 Este análisis se mantiene deliberadamente en el **planteamiento y delimitación del problema**. No incluye todavía diseño de clases, diagramas UML, diseño de base de datos, casos de uso detallados, arquitectura interna ni implementación, ya que esos corresponden a etapas posteriores del análisis y diseño del sistema.

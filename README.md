@@ -2,7 +2,7 @@
 
   # 🚀 Papilio
 
-  **Un sitio donde realizar intercambios y comerciar libremente.**
+  **Tienda en línea educativa para un único vendedor.**
 
   [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
   [![Status](https://img.shields.io/badge/Status-En%20Desarrollo-blue.svg)]()
@@ -13,18 +13,37 @@
 
 ---
 
-## 📌 Descripción del Proyecto
+## Descripción
 
-Este es un proyecto escolar que consiste en una página web de comercio electrónico. La misma es muy simple tanto es concepto, diseño y ejecución. La idea, además de presentarse como proyecto escolar, es permitir que cualquier persona que desee aprender sobre desarrollo web y base de datos pueda inspeccionar el código e incluso modificarlo con fines educativos; esto último permitido con la licencia de GNU.
+Papilio es un proyecto escolar para simular la construcción de una tienda de comercio electrónico. El sistema administra un único catálogo y vendedor; no es un marketplace. El código se desarrolla con fines educativos y se distribuye bajo la licencia GNU GPL v3.
 
----
+## Alcance
 
-## ✨ Características Principales
+- Registro de clientes con nombre, apellido, correo electrónico y contraseña. Para confirmar el alta, se envía un token al correo ingresado; la cuenta se guarda definitivamente en MongoDB después de validar el token. Las contraseñas se protegen con `bcryptjs` y JWT autentica las sesiones.
+- Catálogo consultable, ordenable por fecha de incorporación al stock (más reciente o más antiguo) y precio (mayor o menor), y filtrable por nombre y categoría.
+- Carrito persistido en `LocalStorage`, con selección de cantidades y cálculo del precio final.
+- No se aplican descuentos ni se procesan pagos. Al confirmar una compra, el sistema guarda el pedido y envía su información por correo electrónico.
+- Administración protegida de productos y usuarios por el administrador root, denominado usuario 0. Su tipo y permisos son exclusivos y no pueden replicarse en otras cuentas.
+- El usuario puede eliminar su cuenta desde configuración. El administrador también puede eliminar cuentas; en ese caso, se envía un correo con la justificación.
+- Mailtrap Sandbox se utiliza para probar los correos de validación, compra y eliminación. Para enviar correos reales a usuarios será necesario configurar un servicio de producción.
+- No se gestionan envíos.
 
-* ⚡ **Característica 1:** Simple.
-* 🛠️ **Característica 2:** Ligero.
-* 🔒 **Característica 3:** Libre.
-* 🎨 **Característica 4:** Optimizado.
+## Productos
+
+Cada producto contiene nombre, categoría, cantidad en stock, precio por unidad, unidad de medida, imagen o foto y descripción. Todos los campos son obligatorios para crear un producto. La fecha de incorporación al stock se conserva para ordenar los productos por antigüedad. Las imágenes se guardan en el subdirectorio `imgs` y MongoDB conserva su referencia. El stock se almacena en MongoDB y debe validarse al confirmar un pedido.
+
+## Tecnologías
+
+- Frontend: React.
+- Backend: Node.js y Express, mediante una API REST.
+- Base de datos: MongoDB.
+- Lenguaje: JavaScript o TypeScript.
+- Autenticación: `bcryptjs` y JWT.
+- Correo en pruebas: Mailtrap Sandbox.
+
+## Estado del proyecto
+
+El repositorio contiene actualmente documentación de análisis y diseño; todavía no incluye el código de la aplicación ni manifiestos de dependencias. Por eso, aún no hay instrucciones ejecutables de instalación o inicio. El alcance y los flujos del sistema están detallados en [ANALISIS.md](ANALISIS.md).
 
 ---
 
@@ -42,6 +61,4 @@ Este es un proyecto escolar que consiste en una página web de comercio electró
 
 ## 🚀 Instalación y Uso
 
-1. **Clona el repositorio:**
-   ```bash
-   git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+La instalación y ejecución se documentarán cuando se incorpore el esqueleto de frontend y backend.
